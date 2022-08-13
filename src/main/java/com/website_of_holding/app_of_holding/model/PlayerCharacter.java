@@ -31,14 +31,15 @@ public class PlayerCharacter {
     private String alignment;
 
     // TODO: OVERRIDE THE GET METHODS FOR EACH OF THESE STATS AND RECALCULATE THE VALUES BASED ON THE VARIOUS MODIFIERS I.E. RACE, CLASS, ETC.
-    private int strength;
-    private int dexterity;
-    private int constitution;
-    private int intelligence;
-    private int wisdom;
-    private int charisma;
+    private Long strength;
+    private Long dexterity;
+    private Long constitution;
+    private Long intelligence;
+    private Long wisdom;
+    private Long charisma;
 
-    public PlayerCharacter(String name, String race, String characterClass, String alignment, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
+    public PlayerCharacter(String name, String race, String characterClass, String alignment, Long strength,
+                           Long dexterity, Long constitution, Long intelligence, Long wisdom, Long charisma) {
         this.name = name;
         this.race = race;
         this.characterClass = characterClass;
