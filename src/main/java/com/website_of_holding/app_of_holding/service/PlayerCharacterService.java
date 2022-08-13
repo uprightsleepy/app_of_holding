@@ -53,6 +53,7 @@ public class PlayerCharacterService {
         PlayerCharacter playerCharacter = playerCharacterRepository.findById(playerCharacterId)
                 .orElseThrow(() -> new IllegalStateException("Character with id {" + playerCharacterId + "} does not exist..."));
 
+        // TODO: CONTINUE ERROR CHECKING
         if(name != null && name.length() > 0 && !Objects.equals(playerCharacter.getName(), name)) {
             Optional<PlayerCharacter> playerCharacterOptional = playerCharacterRepository.findPlayerCharacterByName(name);
             if(playerCharacterOptional.isPresent()) {
@@ -71,13 +72,30 @@ public class PlayerCharacterService {
             playerCharacter.setAlignment(alignment);
         } else {
             throw new IllegalStateException("Alignment {" + alignment +"} unable to be set...");
+        } if(strength > 0) {
+            playerCharacter.setStrength(strength);
+        } else {
+            throw new IllegalStateException("Strength level {" + strength+ "} unable to be set...");
+        } if(dexterity > 0) {
+            playerCharacter.setDexterity(dexterity);
+        } else {
+            throw new IllegalStateException("Dex level {" + dexterity + "} unable to be set...");
+        } if(constitution > 0) {
+            playerCharacter.setConstitution(constitution);
+        } else {
+            throw new IllegalStateException("Constitution level {" + constitution+ "} unable to be set...");
+        } if(intelligence > 0) {
+            playerCharacter.setIntelligence(intelligence);
+        } else {
+            throw new IllegalStateException("Intelligence level {" + intelligence+ "} unable to be set...");
+        } if(wisdom > 0) {
+            playerCharacter.setWisdom(wisdom);
+        } else {
+            throw new IllegalStateException("Wisdom level {" + wisdom+ "} unable to be set...");
+        } if(charisma > 0) {
+            playerCharacter.setCharisma(charisma);
+        } else {
+            throw new IllegalStateException("Charisma level {" + charisma+ "} unable to be set...");
         }
-        // TODO: CONTINUE ERROR CHECKING FOR REMAINING STATS
-        playerCharacter.setStrength(strength);
-        playerCharacter.setDexterity(dexterity);
-        playerCharacter.setConstitution(constitution);
-        playerCharacter.setIntelligence(intelligence);
-        playerCharacter.setWisdom(wisdom);
-        playerCharacter.setCharisma(charisma);
     }
 }
