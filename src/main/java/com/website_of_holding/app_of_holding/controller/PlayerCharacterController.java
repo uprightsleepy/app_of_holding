@@ -4,8 +4,8 @@ import com.website_of_holding.app_of_holding.model.PlayerCharacter;
 import com.website_of_holding.app_of_holding.service.PlayerCharacterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -49,8 +49,6 @@ public class PlayerCharacterController {
             @RequestParam(required = false) Long wisdom,
             @RequestParam(required = false) Long charisma
     ) {
-        log.info("PlayerCharacterController.updateCharacter() called with id {%d}...".formatted(playerCharacterId));
-
         playerCharacterService.updateCharacter(playerCharacterId, name, race,
                 characterClass, alignment, strength, dexterity, constitution, intelligence, wisdom, charisma);
     }

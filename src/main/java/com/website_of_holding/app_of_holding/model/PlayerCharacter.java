@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 
 @Getter
@@ -12,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name = "player_characters")
 public class PlayerCharacter {
     @Id
     @SequenceGenerator(
@@ -38,6 +37,7 @@ public class PlayerCharacter {
     private Long wisdom;
     private Long charisma;
 
+    private boolean alive;
     public PlayerCharacter(String name, String race, String characterClass, String alignment, Long strength,
                            Long dexterity, Long constitution, Long intelligence, Long wisdom, Long charisma) {
         this.name = name;
