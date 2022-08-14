@@ -1,11 +1,11 @@
 package com.website_of_holding.app_of_holding.service;
 
+import com.website_of_holding.app_of_holding.exception.PlayerCharacterException;
 import com.website_of_holding.app_of_holding.model.PlayerCharacter;
 import com.website_of_holding.app_of_holding.repository.PlayerCharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.*;
 
 @Service
@@ -28,21 +28,21 @@ public class PlayerCharacterService {
         return playerCharacterRepository.findAll();
     }
 
-    public void addNewCharacter(PlayerCharacter character) {
+    public void addNewCharacter(PlayerCharacter character) throws PlayerCharacterException {
         Optional<PlayerCharacter> characterByName =
                 playerCharacterRepository.findPlayerCharacterByName(character.getName());
 
         if(characterByName.isPresent()) {
-            throw new IllegalStateException("Unable to create character {"
+            throw new PlayerCharacterException("Unable to create character {"
                     + character.getName() + "}. That character already exists!");
         }
         playerCharacterRepository.save(character);
     }
 
-    public void deleteCharacter(Long playerCharacterId) {
+    public void deleteCharacter(Long playerCharacterId) throws PlayerCharacterException {
         boolean exists = playerCharacterRepository.existsById(playerCharacterId);
         if(!exists) {
-            throw new IllegalStateException("Character with id {" + playerCharacterId + "} does not exist.");
+            throw new PlayerCharacterException("Character with id {" + playerCharacterId + "} does not exist.");
         }
         playerCharacterRepository.deleteById(playerCharacterId);
     }
@@ -50,49 +50,49 @@ public class PlayerCharacterService {
     @Transactional
     public void updateCharacter(Long playerCharacterId, String name, String race,
                                 String characterClass, String alignment, Long strength, Long dexterity,
-                                Long constitution, Long intelligence, Long wisdom, Long charisma) {
+                                Long constitution, Long intelligence, Long wisdom, Long charisma) throws PlayerCharacterException {
 
         PlayerCharacter playerCharacter = playerCharacterRepository.findById(playerCharacterId)
-                .orElseThrow(() -> new IllegalStateException("Character with id {" + playerCharacterId + "} does not exist..."));
+                .orElseThrow(() -> new PlayerCharacterException("Character with id {" + playerCharacterId + "} does not exist..."));
 
         if(name != null && name.length() > 0) {
             playerCharacter.setName(name);
         } if(race != null && race.length() > 0) {
             playerCharacter.setRace(race);
         } else {
-            throw new IllegalStateException("Race {" + race +"} is unable to be set to nothing.");
+            throw new PlayerCharacterException("Race {" + race +"} is unable to be set to nothing.");
         } if(availableClasses.contains(characterClass)) {
             playerCharacter.setCharacterClass(characterClass);
         } else {
-            throw new IllegalStateException("Character Class {" + characterClass +"} is not a known class.");
+            throw new PlayerCharacterException("Character Class {" + characterClass +"} is not a known class.");
         } if(availableAlignments.contains(alignment)) {
             playerCharacter.setAlignment(alignment);
         } else {
-            throw new IllegalStateException("Alignment {" + alignment +"} is not a known alignment.");
+            throw new PlayerCharacterException("Alignment {" + alignment +"} is not a known alignment.");
         } if(strength > 0) {
             playerCharacter.setStrength(strength);
         } else {
-            throw new IllegalStateException("Strength level {" + strength+ "} unable to be negative...");
+            throw new PlayerCharacterException("Strength level {" + strength+ "} unable to be negative...");
         } if(dexterity > 0) {
             playerCharacter.setDexterity(dexterity);
         } else {
-            throw new IllegalStateException("Dex level {" + dexterity + "} unable to be negative...");
+            throw new PlayerCharacterException("Dex level {" + dexterity + "} unable to be negative...");
         } if(constitution > 0) {
             playerCharacter.setConstitution(constitution);
         } else {
-            throw new IllegalStateException("Constitution level {" + constitution+ "} unable to be negative...");
+            throw new PlayerCharacterException("Constitution level {" + constitution+ "} unable to be negative...");
         } if(intelligence > 0) {
             playerCharacter.setIntelligence(intelligence);
         } else {
-            throw new IllegalStateException("Intelligence level {" + intelligence+ "} unable to be negative...");
+            throw new PlayerCharacterException("Intelligence level {" + intelligence+ "} unable to be negative...");
         } if(wisdom > 0) {
             playerCharacter.setWisdom(wisdom);
         } else {
-            throw new IllegalStateException("Wisdom level {" + wisdom+ "} unable to be negative...");
+            throw new PlayerCharacterException("Wisdom level {" + wisdom+ "} unable to be negative...");
         } if(charisma > 0) {
             playerCharacter.setCharisma(charisma);
         } else {
-            throw new IllegalStateException("Charisma level {" + charisma+ "} unable to be negative...");
+            throw new PlayerCharacterException("Charisma level {" + charisma+ "} unable to be negative...");
         }
     }
 }

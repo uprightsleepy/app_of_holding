@@ -1,5 +1,6 @@
 package com.website_of_holding.app_of_holding.service;
 
+import com.website_of_holding.app_of_holding.exception.CampaignException;
 import com.website_of_holding.app_of_holding.model.Campaign;
 import com.website_of_holding.app_of_holding.repository.CampaignRepository;
 import com.website_of_holding.app_of_holding.repository.PlayerCharacterRepository;
@@ -28,30 +29,30 @@ public class CampaignService {
         return campaignRepository.findAll();
     }
 
-    public void addCampaign(Campaign campaign) {
+    public void addCampaign(Campaign campaign) throws CampaignException {
         Optional<Campaign> campaignOptional = campaignRepository.findCampaignByTitle(campaign.getTitle());
 
         if(campaignOptional.isPresent()) {
-            throw new IllegalStateException("Unable to create campaign {" + campaign.getTitle() + "} because name already exists.");
+            throw new CampaignException("Unable to create campaign {" + campaign.getTitle() + "} because name already exists.");
         }
         campaignRepository.save(campaign);
     }
 
-    public void deleteCampaign(Long campaignId) {
+    public void deleteCampaign(Long campaignId) throws CampaignException {
 
         boolean exists = campaignRepository.existsById(campaignId);
         if(!exists) {
-            throw new IllegalStateException("Campaign with ID {" + campaignId + "} does not exist.");
+            throw new CampaignException("Campaign with ID {" + campaignId + "} does not exist.");
         }
         campaignRepository.deleteById(campaignId);
     }
 
     @Transactional
     public void updateCampaign(Long campaignId, String title,
-                               LocalDate startDate, boolean completed) {
+                               LocalDate startDate, boolean completed) throws CampaignException {
 
         Campaign campaign = campaignRepository.findById(campaignId)
-                .orElseThrow(() -> new IllegalStateException("Campaign with id {" + campaignId + "} does not exist."));
+                .orElseThrow(() -> new CampaignException("Campaign with id {" + campaignId + "} does not exist."));
         campaign.setTitle(title);
         campaign.setStartDate(startDate);
         campaign.setTitle(title);

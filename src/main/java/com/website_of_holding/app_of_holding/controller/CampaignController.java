@@ -1,5 +1,6 @@
 package com.website_of_holding.app_of_holding.controller;
 
+import com.website_of_holding.app_of_holding.exception.CampaignException;
 import com.website_of_holding.app_of_holding.model.Campaign;
 import com.website_of_holding.app_of_holding.service.CampaignService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,12 @@ public class CampaignController {
     }
 
     @PostMapping
-    public void createCampaign(@RequestBody Campaign campaign) {
+    public void createCampaign(@RequestBody Campaign campaign) throws CampaignException {
         campaignService.addCampaign(campaign);
     }
 
     @DeleteMapping(path="{campaignId}")
-    public void deleteCampaign(@PathVariable("campaignId") Long campaignId) {
+    public void deleteCampaign(@PathVariable("campaignId") Long campaignId) throws CampaignException {
         campaignService.deleteCampaign(campaignId);
     }
 
@@ -42,7 +43,7 @@ public class CampaignController {
             @RequestParam(required = false) String title,
             @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) boolean completed
-    ) {
+    ) throws CampaignException {
         campaignService.updateCampaign(campaignId, title, startDate, completed);
     }
 }

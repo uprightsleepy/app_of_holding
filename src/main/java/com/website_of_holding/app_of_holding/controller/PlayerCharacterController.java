@@ -1,5 +1,6 @@
 package com.website_of_holding.app_of_holding.controller;
 
+import com.website_of_holding.app_of_holding.exception.PlayerCharacterException;
 import com.website_of_holding.app_of_holding.model.PlayerCharacter;
 import com.website_of_holding.app_of_holding.service.PlayerCharacterService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +27,12 @@ public class PlayerCharacterController {
     }
 
     @PostMapping
-    public void createCharacter(@RequestBody PlayerCharacter character) {
+    public void createCharacter(@RequestBody PlayerCharacter character) throws PlayerCharacterException {
         playerCharacterService.addNewCharacter(character);
     }
 
     @DeleteMapping(path = "{playerCharacterId}")
-    public void deleteCharacter(@PathVariable("playerCharacterId") Long playerCharacterId) {
+    public void deleteCharacter(@PathVariable("playerCharacterId") Long playerCharacterId) throws PlayerCharacterException {
         playerCharacterService.deleteCharacter(playerCharacterId);
     }
 
@@ -48,7 +49,7 @@ public class PlayerCharacterController {
             @RequestParam(required = false) Long intelligence,
             @RequestParam(required = false) Long wisdom,
             @RequestParam(required = false) Long charisma
-    ) {
+    ) throws PlayerCharacterException {
         playerCharacterService.updateCharacter(playerCharacterId, name, race,
                 characterClass, alignment, strength, dexterity, constitution, intelligence, wisdom, charisma);
     }
