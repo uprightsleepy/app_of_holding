@@ -1,7 +1,6 @@
 package com.website_of_holding.app_of_holding.service;
 
 import com.website_of_holding.app_of_holding.exception.PlayerCharacterException;
-import com.website_of_holding.app_of_holding.model.Campaign;
 import com.website_of_holding.app_of_holding.model.PlayerCharacter;
 import com.website_of_holding.app_of_holding.repository.PlayerCharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
+@Transactional
 public class PlayerCharacterService {
 
     private final PlayerCharacterRepository playerCharacterRepository;
@@ -51,7 +51,7 @@ public class PlayerCharacterService {
     @Transactional
     public void updateCharacter(Long playerCharacterId, String name, int level, String race,
                                 String characterClass, String alignment, int strength, int dexterity,
-                                int constitution, int intelligence, int wisdom, int charisma, Campaign campaign) throws PlayerCharacterException {
+                                int constitution, int intelligence, int wisdom, int charisma) throws PlayerCharacterException {
 
         PlayerCharacter playerCharacter = playerCharacterRepository.findById(playerCharacterId)
                 .orElseThrow(() -> new PlayerCharacterException("Character with id {" + playerCharacterId + "} does not exist..."));
@@ -97,6 +97,5 @@ public class PlayerCharacterService {
         } else {
             throw new PlayerCharacterException("Charisma level {" + charisma+ "} unable to be negative...");
         }
-        playerCharacter.setCampaign(campaign);
     }
 }

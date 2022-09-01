@@ -1,9 +1,5 @@
 package com.website_of_holding.app_of_holding.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +8,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "player_characters")
 public class PlayerCharacter {
@@ -33,7 +28,6 @@ public class PlayerCharacter {
     private String characterClass;
     private String alignment;
 
-    // TODO: OVERRIDE THE GET METHODS FOR EACH OF THESE STATS AND RECALCULATE THE VALUES BASED ON THE VARIOUS MODIFIERS I.E. RACE, CLASS, ETC.
     private int strength;
     private int dexterity;
     private int constitution;
@@ -44,12 +38,12 @@ public class PlayerCharacter {
     private boolean alive;
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "campaign_id", referencedColumnName = "id")
     private Campaign campaign;
 
     public PlayerCharacter(String name, int level, String race, String characterClass, String alignment, int strength,
-                           int dexterity, int constitution, int intelligence, int wisdom, int charisma, Campaign campaign) {
+                           int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
         this.name = name;
         this.level = level;
         this.race = race;
@@ -61,7 +55,6 @@ public class PlayerCharacter {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.charisma = charisma;
-        this.campaign = campaign;
     }
 
     @Override

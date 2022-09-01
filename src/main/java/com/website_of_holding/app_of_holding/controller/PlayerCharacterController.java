@@ -1,7 +1,6 @@
 package com.website_of_holding.app_of_holding.controller;
 
 import com.website_of_holding.app_of_holding.exception.PlayerCharacterException;
-import com.website_of_holding.app_of_holding.model.Campaign;
 import com.website_of_holding.app_of_holding.model.PlayerCharacter;
 import com.website_of_holding.app_of_holding.service.PlayerCharacterService;
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +48,9 @@ public class PlayerCharacterController {
             @RequestParam(required = false) int constitution,
             @RequestParam(required = false) int intelligence,
             @RequestParam(required = false) int wisdom,
-            @RequestParam(required = false) int charisma,
-            @RequestParam(required = false) Campaign campaign
+            @RequestParam(required = false) int charisma
     ) throws PlayerCharacterException {
         playerCharacterService.updateCharacter(playerCharacterId, name, level, race,
-                characterClass, alignment, strength, dexterity, constitution, intelligence, wisdom, charisma, campaign);
+                characterClass, alignment, strength, dexterity, constitution, intelligence, wisdom, charisma);
     }
 }
