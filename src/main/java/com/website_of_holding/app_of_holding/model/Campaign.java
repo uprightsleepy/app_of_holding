@@ -1,5 +1,6 @@
 package com.website_of_holding.app_of_holding.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +33,8 @@ public class Campaign {
     private LocalDate startDate;
     private boolean completed;
 
+    @OneToOne(mappedBy = "campaign")
+    private PlayerCharacter character;
     public Campaign(String title, LocalDate startDate, boolean completed) {
         this.title = title;
         this.startDate = startDate;

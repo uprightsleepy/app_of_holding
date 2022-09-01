@@ -1,5 +1,8 @@
 package com.website_of_holding.app_of_holding.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,23 +27,31 @@ public class PlayerCharacter {
             generator = "character_sequence"
     )
     private Long id;
+    private int level;
     private String name;
     private String race;
     private String characterClass;
     private String alignment;
 
     // TODO: OVERRIDE THE GET METHODS FOR EACH OF THESE STATS AND RECALCULATE THE VALUES BASED ON THE VARIOUS MODIFIERS I.E. RACE, CLASS, ETC.
-    private Long strength;
-    private Long dexterity;
-    private Long constitution;
-    private Long intelligence;
-    private Long wisdom;
-    private Long charisma;
+    private int strength;
+    private int dexterity;
+    private int constitution;
+    private int intelligence;
+    private int wisdom;
+    private int charisma;
 
     private boolean alive;
-    public PlayerCharacter(String name, String race, String characterClass, String alignment, Long strength,
-                           Long dexterity, Long constitution, Long intelligence, Long wisdom, Long charisma) {
+
+
+    @OneToOne
+    @JoinColumn(name = "campaign_id", referencedColumnName = "id")
+    private Campaign campaign;
+
+    public PlayerCharacter(String name, int level, String race, String characterClass, String alignment, int strength,
+                           int dexterity, int constitution, int intelligence, int wisdom, int charisma, Campaign campaign) {
         this.name = name;
+        this.level = level;
         this.race = race;
         this.characterClass = characterClass;
         this.alignment = alignment;
@@ -50,6 +61,7 @@ public class PlayerCharacter {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.charisma = charisma;
+        this.campaign = campaign;
     }
 
     @Override
@@ -57,6 +69,7 @@ public class PlayerCharacter {
         return "PlayerCharacter{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", level='" + level + '\'' +
                 ", race='" + race + '\'' +
                 ", characterClass='" + characterClass + '\'' +
                 ", alignment='" + alignment + '\'' +

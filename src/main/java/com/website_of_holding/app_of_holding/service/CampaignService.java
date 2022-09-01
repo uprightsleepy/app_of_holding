@@ -55,7 +55,6 @@ public class CampaignService {
                 .orElseThrow(() -> new CampaignException("Campaign with id {" + campaignId + "} does not exist."));
         campaign.setTitle(title);
         campaign.setStartDate(startDate);
-        campaign.setTitle(title);
         campaign.setCompleted(completed);
     }
 }

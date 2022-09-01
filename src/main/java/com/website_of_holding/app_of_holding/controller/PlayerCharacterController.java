@@ -1,11 +1,11 @@
 package com.website_of_holding.app_of_holding.controller;
 
 import com.website_of_holding.app_of_holding.exception.PlayerCharacterException;
+import com.website_of_holding.app_of_holding.model.Campaign;
 import com.website_of_holding.app_of_holding.model.PlayerCharacter;
 import com.website_of_holding.app_of_holding.service.PlayerCharacterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -40,17 +40,19 @@ public class PlayerCharacterController {
     public void updateCharacter(
             @PathVariable("playerCharacterId") Long playerCharacterId,
             @RequestParam(required = false) String name,
+            @RequestParam(required = false) int level,
             @RequestParam(required = false) String race,
             @RequestParam(required = false) String characterClass,
             @RequestParam(required = false) String alignment,
-            @RequestParam(required = false) Long strength,
-            @RequestParam(required = false) Long dexterity,
-            @RequestParam(required = false) Long constitution,
-            @RequestParam(required = false) Long intelligence,
-            @RequestParam(required = false) Long wisdom,
-            @RequestParam(required = false) Long charisma
+            @RequestParam(required = false) int strength,
+            @RequestParam(required = false) int dexterity,
+            @RequestParam(required = false) int constitution,
+            @RequestParam(required = false) int intelligence,
+            @RequestParam(required = false) int wisdom,
+            @RequestParam(required = false) int charisma,
+            @RequestParam(required = false) Campaign campaign
     ) throws PlayerCharacterException {
-        playerCharacterService.updateCharacter(playerCharacterId, name, race,
-                characterClass, alignment, strength, dexterity, constitution, intelligence, wisdom, charisma);
+        playerCharacterService.updateCharacter(playerCharacterId, name, level, race,
+                characterClass, alignment, strength, dexterity, constitution, intelligence, wisdom, charisma, campaign);
     }
 }
