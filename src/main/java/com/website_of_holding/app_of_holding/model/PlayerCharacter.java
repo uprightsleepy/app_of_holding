@@ -38,7 +38,7 @@ public class PlayerCharacter {
     private boolean alive;
 
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "campaign_id", referencedColumnName = "id")
     private Campaign campaign;
 
