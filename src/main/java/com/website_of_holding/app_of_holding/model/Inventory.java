@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -32,8 +34,9 @@ public class Inventory {
     private int gold;
     private int platinum;
 
-    @Transient
-    Map<String, String> rightHereMap = new HashMap<String, String>(){};
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "inventory_id")
+    List<Item> items;
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "character_id", referencedColumnName = "id")
