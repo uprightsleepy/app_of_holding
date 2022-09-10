@@ -48,9 +48,10 @@ public class PlayerCharacterController {
             @RequestParam(required = false) int constitution,
             @RequestParam(required = false) int intelligence,
             @RequestParam(required = false) int wisdom,
-            @RequestParam(required = false) int charisma
+            @RequestParam(required = false) int charisma,
+            @RequestParam(required = false) boolean alive
     ) throws PlayerCharacterException {
         playerCharacterService.updateCharacter(playerCharacterId, name, level, race,
-                characterClass, alignment, strength, dexterity, constitution, intelligence, wisdom, charisma);
+                characterClass, alignment, strength, dexterity, constitution, intelligence, wisdom, charisma, alive);
     }
 }

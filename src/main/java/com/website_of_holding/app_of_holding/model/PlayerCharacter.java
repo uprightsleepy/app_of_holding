@@ -1,9 +1,13 @@
 package com.website_of_holding.app_of_holding.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -37,13 +41,17 @@ public class PlayerCharacter {
 
     private boolean alive;
 
+    @Column(name = "created_datetime")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSSSSS")
+    private LocalDateTime createdDate = LocalDateTime.now();
+
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "campaign_id", referencedColumnName = "id")
     private Campaign campaign;
 
     public PlayerCharacter(String name, int level, String race, String characterClass, String alignment, int strength,
-                           int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
+                           int dexterity, int constitution, int intelligence, int wisdom, int charisma, LocalDateTime createdDate) {
         this.name = name;
         this.level = level;
         this.race = race;
@@ -55,6 +63,7 @@ public class PlayerCharacter {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.charisma = charisma;
+        this.createdDate = createdDate;
     }
 
     @Override

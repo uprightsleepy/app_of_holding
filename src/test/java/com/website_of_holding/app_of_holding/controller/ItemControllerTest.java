@@ -1,11 +1,8 @@
 package com.website_of_holding.app_of_holding.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.website_of_holding.app_of_holding.model.Campaign;
-import com.website_of_holding.app_of_holding.service.CampaignService;
-
-import java.time.LocalDate;
-
+import com.website_of_holding.app_of_holding.model.Item;
+import com.website_of_holding.app_of_holding.service.ItemService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,66 +16,63 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@ContextConfiguration(classes = {CampaignController.class})
+@ContextConfiguration(classes = {ItemController.class})
 @ExtendWith(SpringExtension.class)
-class CampaignControllerTest {
+class ItemControllerTest {
     @Autowired
-    private CampaignController campaignController;
+    private ItemController itemController;
 
     @MockBean
-    private CampaignService campaignService;
+    private ItemService itemService;
 
     /**
-     * Method under test: {@link CampaignController#createCampaign(Campaign)}
+     * Method under test: {@link ItemController#createItem(Item)}
      */
     @Test
-    void testCreateCampaign() throws Exception {
-        Campaign campaign = new Campaign();
-        campaign.setCompleted(true);
-        campaign.setId(123L);
-        campaign.setStartDate(null);
-        campaign.setTitle("Title");
-        String content = (new ObjectMapper()).writeValueAsString(campaign);
+    void testCreateItem() throws Exception {
+        Item item = new Item();
+        item.setId(123L);
+        item.setName("Name");
+        item.setWeight(10.0d);
+        String content = (new ObjectMapper()).writeValueAsString(item);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(campaignController)
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(itemController).build().perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    /**
+     * Method under test: {@link ItemController#deleteItem(Long)}
+     */
+    @Test
+    void testDeleteItem() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/{itemId}", 123L);
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(itemController)
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     /**
-     * Method under test: {@link CampaignController#deleteCampaign(Long)}
+     * Method under test: {@link ItemController#getItems()}
      */
     @Test
-    void testDeleteCampaign() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/{campaignId}", 123L);
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(campaignController)
-                .build()
-                .perform(requestBuilder);
-        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
-    }
-
-    /**
-     * Method under test: {@link CampaignController#getCampaigns()}
-     */
-    @Test
-    void testGetCampaigns() throws Exception {
+    void testGetItems() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(campaignController)
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(itemController)
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     /**
-     * Method under test: {@link CampaignController#updateCampaign(Long, String, LocalDate, boolean)}
+     * Method under test: {@link ItemController#updateItem(Long, String, Double)}
      */
     @Test
-    void testUpdateCampaign() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/{campaignId}", 123L);
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(campaignController)
+    void testUpdateItem() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/{itemId}", 123L);
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(itemController)
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());

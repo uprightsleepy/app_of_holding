@@ -2,8 +2,12 @@ package com.website_of_holding.app_of_holding.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.website_of_holding.app_of_holding.model.Campaign;
+import com.website_of_holding.app_of_holding.model.Inventory;
 import com.website_of_holding.app_of_holding.model.PlayerCharacter;
-import com.website_of_holding.app_of_holding.service.PlayerCharacterService;
+import com.website_of_holding.app_of_holding.service.InventoryService;
+
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +21,20 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@ContextConfiguration(classes = {PlayerCharacterController.class})
+@ContextConfiguration(classes = {InventoryController.class})
 @ExtendWith(SpringExtension.class)
-class PlayerCharacterControllerTest {
+class InventoryControllerTest {
     @Autowired
-    private PlayerCharacterController playerCharacterController;
+    private InventoryController inventoryController;
 
     @MockBean
-    private PlayerCharacterService playerCharacterService;
+    private InventoryService inventoryService;
 
     /**
-     * Method under test: {@link PlayerCharacterController#createCharacter(PlayerCharacter)}
+     * Method under test: {@link InventoryController#createInventory(Inventory)}
      */
     @Test
-    void testCreateCharacter() throws Exception {
+    void testCreateInventory() throws Exception {
         Campaign campaign = new Campaign();
         campaign.setCompleted(true);
         campaign.setId(123L);
@@ -52,47 +56,57 @@ class PlayerCharacterControllerTest {
         playerCharacter.setRace("Race");
         playerCharacter.setStrength(1);
         playerCharacter.setWisdom(1);
-        String content = (new ObjectMapper()).writeValueAsString(playerCharacter);
+
+        Inventory inventory = new Inventory();
+        inventory.setCharacter(playerCharacter);
+        inventory.setCopper(1);
+        inventory.setElectrum(1);
+        inventory.setGold(1);
+        inventory.setId(123L);
+        inventory.setItems(new ArrayList<>());
+        inventory.setPlatinum(10);
+        inventory.setSilver(1);
+        String content = (new ObjectMapper()).writeValueAsString(inventory);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(playerCharacterController)
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(inventoryController)
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     /**
-     * Method under test: {@link PlayerCharacterController#deleteCharacter(Long)}
+     * Method under test: {@link InventoryController#deleteInventory(Long)}
      */
     @Test
-    void testDeleteCharacter() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/{playerCharacterId}", 123L);
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(playerCharacterController)
+    void testDeleteInventory() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/{inventoryId}", 123L);
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(inventoryController)
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     /**
-     * Method under test: {@link PlayerCharacterController#getCharacters()}
+     * Method under test: {@link InventoryController#getInventories()}
      */
     @Test
-    void testGetCharacters() throws Exception {
+    void testGetInventories() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(playerCharacterController)
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(inventoryController)
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     /**
-     * Method under test: {@link PlayerCharacterController#updateCharacter(Long, String, int, String, String, String, int, int, int, int, int, int, boolean)}
+     * Method under test: {@link InventoryController#updateInventory(Long, int, int, int, int, int)}
      */
     @Test
-    void testUpdateCharacter() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/{playerCharacterId}", 123L);
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(playerCharacterController)
+    void testUpdateInventory() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/{inventoryId}", 123L);
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(inventoryController)
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());

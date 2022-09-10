@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -41,4 +38,4 @@ public class Inventory {
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "character_id", referencedColumnName = "id")
     PlayerCharacter character;
-};
+}
