@@ -38,9 +38,6 @@ public class Campaign {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSSSSS")
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "character_id", referencedColumnName = "id")
-    private PlayerCharacter character;
     public Campaign(String title, LocalDate startDate, boolean completed, LocalDateTime createdDate) {
         this.title = title;
         this.startDate = startDate;
