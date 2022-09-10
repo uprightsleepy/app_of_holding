@@ -1,7 +1,10 @@
 package com.website_of_holding.app_of_holding.service;
 
+import com.website_of_holding.app_of_holding.exception.CampaignException;
 import com.website_of_holding.app_of_holding.exception.PlayerCharacterException;
+import com.website_of_holding.app_of_holding.model.Inventory;
 import com.website_of_holding.app_of_holding.model.PlayerCharacter;
+import com.website_of_holding.app_of_holding.repository.InventoryRepository;
 import com.website_of_holding.app_of_holding.repository.PlayerCharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import java.util.*;
 public class PlayerCharacterService {
 
     private final PlayerCharacterRepository playerCharacterRepository;
+    private final InventoryRepository inventoryRepository;
     private final List<String> availableClasses = Arrays.asList("Barbarian", "Fighter", "Rogue",
             "Bard", "Monk", "Sorcerer", "Cleric", "Paladin", "Warlock",
             "Druid", "Ranger", "Wizard", "Artificer");
@@ -21,8 +25,9 @@ public class PlayerCharacterService {
             "Lawful Neutral", "True Neutral", "Chaotic Neutral", "Lawful Evil", "Neutral Evil", "Chaotic Evil", "Unaligned");
 
     @Autowired
-    public PlayerCharacterService(PlayerCharacterRepository playerCharacterRepository) {
+    public PlayerCharacterService(PlayerCharacterRepository playerCharacterRepository, InventoryRepository inventoryRepository) {
         this.playerCharacterRepository = playerCharacterRepository;
+        this.inventoryRepository = inventoryRepository;
     }
 
     public List<PlayerCharacter> getCharacters() {
@@ -39,12 +44,22 @@ public class PlayerCharacterService {
         }
         playerCharacterRepository.save(character);
     }
-
+    public List<Inventory> getInventories() {
+        return inventoryRepository.findAll();
+    }
     public void deleteCharacter(Long playerCharacterId) throws PlayerCharacterException {
         boolean exists = playerCharacterRepository.existsById(playerCharacterId);
+        List<Inventory> inventories = getInventories();
         if(!exists) {
             throw new PlayerCharacterException("Character with id {" + playerCharacterId + "} does not exist.");
         }
+        for(Inventory i : inventories) {
+            if(Objects.equals(i.getCharacter().getId(), playerCharacterId)) {
+                throw new PlayerCharacterException("Unable to delete character with ID{"
+                        + playerCharacterId + "}. It still has an inventory!");
+            }
+        }
+
         playerCharacterRepository.deleteById(playerCharacterId);
     }
 
