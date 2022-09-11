@@ -2,11 +2,13 @@ package com.website_of_holding.app_of_holding.service;
 
 import com.website_of_holding.app_of_holding.exception.InventoryException;
 import com.website_of_holding.app_of_holding.model.Inventory;
+import com.website_of_holding.app_of_holding.model.PlayerCharacter;
 import com.website_of_holding.app_of_holding.repository.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -29,6 +31,11 @@ public class InventoryService {
         if(inventoryOptional.isPresent()) {
             throw new InventoryException("Unable to add inventory for character {" + inventory.getCharacter().getName() +"} because inventory already exists.");
         }
+        for(Inventory i : getInventories()) {
+            if(Objects.equals(i.getCharacter().getId(), inventory.getCharacter().getId())) {
+                throw new InventoryException("Unable to add inventory for character {" + inventory.getCharacter().getName() +"} because inventory already exists for that character.");
+            }
+        }
         inventoryRepository.save(inventory);
     }
 
@@ -47,9 +54,9 @@ public class InventoryService {
         Inventory inventory = inventoryRepository.findById(inventoryId)
                 .orElseThrow(() -> new InventoryException("Inventory with id {" + inventoryId + "} does not exist."));
         inventory.setCopper(copper);
-        inventory.setCopper(silver);
-        inventory.setCopper(electrum);
-        inventory.setCopper(gold);
-        inventory.setCopper(platinum);
+        inventory.setSilver(silver);
+        inventory.setElectrum(electrum);
+        inventory.setGold(gold);
+        inventory.setPlatinum(platinum);
     }
 }

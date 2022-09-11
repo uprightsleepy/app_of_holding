@@ -31,10 +31,6 @@ public class Inventory {
     private int gold;
     private int platinum;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "inventory_id")
-    List<Item> items;
-
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "character_id", referencedColumnName = "id")
     PlayerCharacter character;
