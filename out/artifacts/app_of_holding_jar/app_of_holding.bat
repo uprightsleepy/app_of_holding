@@ -1,0 +1,1 @@
+java -jar app_of_holding.jar
