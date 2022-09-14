@@ -44,33 +44,7 @@ class InventoryControllerTest {
      * Method under test: {@link InventoryController#createInventory(Inventory)}
      */
     @Test
-    @Disabled("TODO: Complete this test")
     void testCreateInventory() throws InventoryException {
-        //   Diffblue Cover was unable to write a Spring test,
-        //   so wrote a non-Spring test instead.
-        //   Reason: R008 Failed to instantiate class under test.
-        //   Diffblue Cover was unable to construct an instance of InventoryController.
-        //   Ensure there is a package-visible constructor or factory method that does not
-        //   throw for the class under test.
-        //   If such a method is already present but Diffblue Cover does not find it, it can
-        //   be specified using custom rules for inputs:
-        //   https://docs.diffblue.com/knowledge-base/cli/custom-inputs/
-        //   This can happen because the factory method takes arguments, throws, returns null
-        //   or returns a subtype.
-        //   See https://diff.blue/R008 for further troubleshooting of this issue.
-
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   com.website_of_holding.app_of_holding.exception.InventoryException: Unable to add inventory for character {Name} because inventory already exists.
-        //       at com.website_of_holding.app_of_holding.service.InventoryService.addInventory(InventoryService.java:32)
-        //       at com.website_of_holding.app_of_holding.controller.InventoryController.createInventory(InventoryController.java:28)
-        //   In order to prevent createInventory(Inventory)
-        //   from throwing InventoryException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   createInventory(Inventory).
-        //   See https://diff.blue/R013 to resolve this issue.
 
         Campaign campaign = new Campaign();
         campaign.setCompleted(true);

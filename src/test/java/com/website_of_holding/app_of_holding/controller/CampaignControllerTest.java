@@ -42,7 +42,6 @@ class CampaignControllerTest {
      * Method under test: {@link CampaignController#createCampaign(Campaign)}
      */
     @Test
-    @Disabled("TODO: Complete this test")
     void testCreateCampaign() throws CampaignException {
 
         Campaign campaign = new Campaign();

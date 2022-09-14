@@ -389,7 +389,6 @@ class PlayerCharacterServiceTest {
      * Method under test: {@link PlayerCharacterService#updateCharacter(Long, String, int, String, String, String, int, int, int, int, int, int, boolean)}
      */
     @Test
-    @Disabled("TODO: Complete this test")
     void testUpdateCharacter2() throws PlayerCharacterException {
 
         when(playerCharacterRepository.findById((Long) any())).thenReturn(null);
